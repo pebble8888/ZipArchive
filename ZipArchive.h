@@ -69,24 +69,9 @@ typedef void(^ZipArchiveProgressUpdateBlock)(int percentage, int filesProcessed,
     and extract the files.
 */
 
-@interface ZipArchive : NSObject {
-@private
-	void*           _zipFile;
-	void*           _unzFile;
-	
-    unsigned long   _numFiles;
-	NSString*       _password;
-	id              _delegate;
-    ZipArchiveProgressUpdateBlock _progressBlock;
-    
-    NSArray*    _unzippedFiles;
-    
-    NSFileManager* _fileManager;
-    NSStringEncoding _stringEncoding;
-}
-
+@interface ZipArchive : NSObject
 /** a delegate object conforming to ZipArchiveDelegate protocol */
-@property (nonatomic, retain) id<ZipArchiveDelegate> delegate;
+@property (nonatomic, weak) id<ZipArchiveDelegate> delegate;
 @property (nonatomic, readonly) unsigned long numFiles;
 @property (nonatomic, copy) ZipArchiveProgressUpdateBlock progressBlock;
 
@@ -99,6 +84,7 @@ typedef void(^ZipArchiveProgressUpdateBlock)(int percentage, int filesProcessed,
 
 /** an array of files that were successfully expanded. Available after calling UnzipFileTo:overWrite: */
 @property (nonatomic, readonly) NSArray* unzippedFiles;
++(instancetype)ziparchive;
 
 -(id) initWithFileManager:(NSFileManager*) fileManager;
 
